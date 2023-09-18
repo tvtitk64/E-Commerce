@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  ecommerce:
+    container_name: ecommerce-app
+    image: ecommerce
+    restart: always
+    build: .
+    ports:
+      - 8088:8088
+    depends_on:
+      - ecommercedb
+    environment:
+
+      SPRING_DATASOURCE_URL: jdbc:mysql://ecommercedb:3306/ecommerce?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+
+  ecommercedb:
+    container_name: ecommercedb
+    image: mysql:8.0
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: ecommerce
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./data:/var/lib/mysql
+
